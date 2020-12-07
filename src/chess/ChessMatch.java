@@ -5,6 +5,7 @@ import BoardGame.Piece;
 import BoardGame.Position;
 import chess.pieces.Rook;
 import chess.pieces.king;
+import chess.ChessPosition;
 
 public class ChessMatch {
 
@@ -25,10 +26,16 @@ public class ChessMatch {
 		}
 		return mat;
 	}
+	public boolean[][] possibleMoves(ChessPosition sourcePosition){
+		Position position = sourcePosition.toPosition();
+		validateSourcePosition(position);
+		return board.piece(position).possibleMoves();
+	}
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPoisition) {
 		Position source = sourcePosition.toPosition();
 		Position target = targetPoisition.toPosition();
 		validateSourcePosition(source);
+		validateTargetPosition(source,target);
 		Piece capturedPiece = makeMove(source, target);
 		return (ChessPiece)capturedPiece;
 	}
@@ -47,7 +54,16 @@ public class ChessMatch {
 		if(!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("Não existe movimento possivel");
 		}
-	}	
+	}
+	
+	private void validateTargetPosition(Position source, Position target) {
+		if(!board.piece(source).possibleMove(target)) {
+			throw new ChessException("A peça não pode mover para a possição de destino");
+			
+		}
+		
+	}
+		
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new  ChessPosition(column, row).toPosition());
 	}

@@ -3,6 +3,8 @@ package apllication;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import BoardGame.Board;
 import BoardGame.Position;
 import chess.ChessException;
@@ -25,6 +27,9 @@ public class jogoChadress {
 			System.out.print("Source: ");
 			ChessPosition source = UI.readChessPosition(sc);
 			
+			boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+			UI.clearScreen();
+			UI.printBoard(chessMatch.getPieces(),possibleMoves);
 			System.out.println();
 			System.out.print("Target: ");
 			ChessPosition target = UI.readChessPosition(sc);
